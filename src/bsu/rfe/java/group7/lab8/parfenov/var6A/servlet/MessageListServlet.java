@@ -35,8 +35,11 @@ public class MessageListServlet extends ChatServlet {
 
             String nameOfAuthor = aMessage.getAuthor().getName();
 
-            if (aMessage.getMessage().equals("NEWUSERINTHECHAT")) {
+            if (aMessage.getMessage().equals("NewUserInTheChat")) {
                 pw.println("<div>Пользователь <strong>" + nameOfAuthor +"</strong> пришёл в чат" + "</div>");
+            }
+            else if(aMessage.getMessage().equals("UserRemoveFromChat")){
+                pw.println("<div>Пользователь <strong>" + nameOfAuthor +"</strong> вышел из чата" + "</div>");
             }
             else pw.println("<div><strong>" + nameOfAuthor
                     + "</strong>: " + aMessage.getMessage() + "</div>");

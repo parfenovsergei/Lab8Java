@@ -1,5 +1,6 @@
 package bsu.rfe.java.group7.lab8.parfenov.var6A.servlet;
 
+import bsu.rfe.java.group7.lab8.parfenov.var6A.entity.ChatMessage;
 import bsu.rfe.java.group7.lab8.parfenov.var6A.entity.ChatUser;
 
 import javax.servlet.ServletException;
@@ -8,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Calendar;
 
 
 public class LogoutServlet extends ChatServlet {
@@ -32,20 +34,24 @@ public class LogoutServlet extends ChatServlet {
                 synchronized (activeUsers) {
                     activeUsers.remove(name);
                 }
+                synchronized(messages){
+                    messages.add(new ChatMessage("UserRemoveFromChat", aUser,
+                            Calendar.getInstance().getTimeInMillis()));
+                }
 // Сбросить имя пользователя в сессии
                 request.getSession().setAttribute("name", null);
 // Сбросить ID сессии в cookie
                 response.addCookie(new Cookie("sessionId", null));
 // Перенаправить на главную страницу
-                response.sendRedirect(response.encodeRedirectURL("/LaboratoryJava8_war_exploded/"));
+                response.sendRedirect(response.encodeRedirectURL("/Lab8Java_war_exploded/"));
             } else {
 // Пользователь пытается аннулировать чужую сессию –
 // не делать ничего
-                response.sendRedirect(response.encodeRedirectURL("/LaboratoryJava8_war_exploded/view.htm"));
+                response.sendRedirect(response.encodeRedirectURL("/Lab8Java_war_exploded/view.htm"));
             }
         } else {
 // Перенаправить пользователя на главное окно чата
-            response.sendRedirect(response.encodeRedirectURL("/LaboratoryJava8_war_exploded/view.htm"));
+            response.sendRedirect(response.encodeRedirectURL("/Lab8Java_war_exploded/view.htm"));
         }
     }
 }
